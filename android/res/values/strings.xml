@@ -10,4 +10,5 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="forget_password"><u>Forget password?</u></string>
+    <string name="choose_security_question">Choose security questions</string>
 </resources>
