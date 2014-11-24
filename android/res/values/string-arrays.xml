@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="security_questions">
+        <item>What is your password?</item>
+        <item>Where do you put you money at home?</item>
+    </string-array>
+</resources>
