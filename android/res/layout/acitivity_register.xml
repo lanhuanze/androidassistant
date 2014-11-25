@@ -36,7 +36,7 @@
     <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/security_question_spinner"
+            android:id="@+id/register_security_question_spinner"
             android:layout_marginTop="47dp" android:layout_below="@+id/register_phonenumber_textedit"
             android:entries="@array/security_questions"
             android:prompt="@string/choose_security_question"
@@ -44,14 +44,14 @@
     <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/register_security_anser_textedit" android:layout_below="@+id/security_question_spinner"
+            android:id="@+id/register_security_answer_textedit" android:layout_below="@+id/register_security_question_spinner"
             android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
             android:layout_alignParentRight="true" android:layout_alignParentEnd="true" android:hint="Security answer"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/register"
-            android:id="@+id/register_action_button" android:layout_below="@+id/register_security_anser_textedit"
+            android:id="@+id/register_action_button" android:layout_below="@+id/register_security_answer_textedit"
             android:layout_alignParentRight="true" android:layout_alignParentEnd="true"
             android:layout_marginTop="36dp"/>
 </RelativeLayout>

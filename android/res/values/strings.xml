@@ -11,4 +11,7 @@
     <string name="register">Register</string>
     <string name="forget_password"><u>Forget password?</u></string>
     <string name="choose_security_question">Choose security questions</string>
+    <string name="error_email_address">Please input a valid email.</string>
+    <string name="error_phone_number">Please input a valid phone number.</string>
+    <string name="error_empty_field">This field can not be empty.</string>
 </resources>

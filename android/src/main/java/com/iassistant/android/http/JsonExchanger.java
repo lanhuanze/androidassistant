@@ -7,6 +7,7 @@ import com.iassistant.android.util.GsonHelper;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lan on 11/24/14.
@@ -44,39 +46,81 @@ public class JsonExchanger {
         String json = GsonHelper.toJson(objs);
         Result<Res> r = Result.newResult();
         String baseUrl = Config.getInstance().getServerBaseUrl();
-        HttpPut put = new HttpPut( baseUrl + url);
+        HttpPut put = new HttpPut(baseUrl + url);
         HttpEntity entity = null;
         try {
             entity = new StringEntity(json);
             put.setEntity(entity);
             put.addHeader("content-type", "application/json;charset=UTF8");
 
-        HttpResponse res = execute(put);
-        if(res != null) {
-            int code = res.getStatusLine().getStatusCode();
-            if(code >= 200 && code < 300) {
-                String respJson = EntityUtils.toString(res.getEntity(), "UTF8");
-                if( ! TextUtils.isEmpty(respJson)) {
+            HttpResponse res = execute(put);
+            if (res != null) {
+                int code = res.getStatusLine().getStatusCode();
+                if (code >= 200 && code < 300) {
+                    String respJson = EntityUtils.toString(res.getEntity(), "UTF8");
+                    if (!TextUtils.isEmpty(respJson)) {
 
-                    log.info("Get from server:" + respJson) ;
-                    Result<Res> result = GsonHelper.jsonToResult(respJson, handler.getType());
-                    return result;
+                        log.info("Get from server:" + respJson);
+                        Result<Res> result = GsonHelper.jsonToResult(respJson, handler.getType());
+                        return result;
+                    }
                 }
             }
-        }
         } catch (UnsupportedEncodingException e) {
             log.error("put get error:" + e.getMessage());
-        }catch (IOException e) {
+        } catch (IOException e) {
             log.error("put get error:" + e.getMessage());
         }
         return r;
+    }
+
+    public <Res> Result<Res> get(String url, Map<String, String> params, ResponseHandler handler) {
+        StringBuffer paramString = new StringBuffer();
+        if (params != null) {
+            for (Map.Entry e : params.entrySet()) {
+                paramString.append(e.getKey());
+                paramString.append("=");
+                paramString.append(e.getValue());
+                paramString.append("&");
+            }
+        }
+
+        Result<Res> r = Result.newResult();
+        String baseUrl = Config.getInstance().getServerBaseUrl();
+        // remove the last &
+        if (paramString.length() > 0) {
+            paramString.setLength(paramString.length() - 1);
+        }
+        HttpGet get = new HttpGet(baseUrl + url + paramString.toString());
+        get.addHeader("content-type", "application/json;charset=UTF8");
+        try {
+            HttpResponse res = mHttpClient.execute(get);
+            if (res != null) {
+                int code = res.getStatusLine().getStatusCode();
+                if (code >= 200 && code < 300) {
+                    String respJson = EntityUtils.toString(res.getEntity(), "UTF8");
+                    if (!TextUtils.isEmpty(respJson)) {
+
+                        log.info("Get from server:" + respJson);
+                        Result<Res> result = GsonHelper.jsonToResult(respJson, handler.getType());
+                        return result;
+                    }
+                }
+            }
+        } catch (UnsupportedEncodingException e) {
+            log.error("put get error:" + e.getMessage());
+        } catch (IOException e) {
+            log.error("put get error:" + e.getMessage());
+        }
+        return r;
+
     }
 
     private HttpResponse execute(HttpRequestBase req) {
         HttpResponse response = null;
         try {
             response = mHttpClient.execute(req);
-        }catch (IOException e) {
+        } catch (IOException e) {
             log.error("execute get error:" + e.getMessage());
         }
         return response;

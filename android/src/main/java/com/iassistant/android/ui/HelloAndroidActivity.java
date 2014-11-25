@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.iassistant.android.R;
 import com.iassistant.android.asynctask.AnonymousDataTask;
+import com.iassistant.android.prefs.Prefs;
 
 public class HelloAndroidActivity extends Activity implements View.OnClickListener{
 
@@ -29,6 +30,16 @@ public class HelloAndroidActivity extends Activity implements View.OnClickListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Prefs prefs = Prefs.getInstance();
+        if(prefs.isLogined()) {
+            Intent intent = new Intent();
+            intent.setClass(this, DashboardActivity.class);
+            intent.putExtra("json", "Already logged in.");
+            startActivity(intent);
+            finish();
+        }
+
         setContentView(R.layout.activity_main);
         //AsyncTask task = new AnonymousDataTask(this);
         //task.execute(null);

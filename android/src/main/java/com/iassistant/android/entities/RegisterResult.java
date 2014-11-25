@@ -7,16 +7,16 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * Created by lan on 11/21/14.
+ * Created by lan on 11/25/14.
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnonymousData extends AbstractModule{
-    private String clientType;
+public class RegisterResult extends AbstractModule {
+    private String email;
+    private String phoneNumber;
     private Date createTime;
-    private String clientVersion;
-    private String clientId;
-    private String ip;
-    private String carrier;
+    private String authToken;
+    private String accountId;
+    private String deviceId;
 }

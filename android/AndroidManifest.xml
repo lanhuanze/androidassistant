@@ -28,6 +28,8 @@
             </intent-filter>
         </activity>
         <activity android:name="com.iassistant.android.ui.RegisterActivity" android:label="Welcome"/>
+        <activity android:name="com.iassistant.android.ui.DashboardActivity" android:label="dashboard"/>
+        <service android:name="com.iassistant.android.service.MessageService" android:label="messageService"/>
     </application>
 
 </manifest>
