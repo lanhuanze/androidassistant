@@ -20,8 +20,9 @@ public class MessageService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         String action = intent.getAction();
+        String actionId = (String) intent.getStringExtra("actionId");
         if(Actions.ACTION_POLL.equals(action)) {
-            GetAsyncTask<ActionEntity, Object> task = new GetAsyncTask<ActionEntity, Object>("/message/v1/action", callback, null, new ActionEntityResponseHandler());
+            GetAsyncTask<ActionEntity, Object> task = new GetAsyncTask<ActionEntity, Object>("/action/v1/retrieve/" + actionId, callback, null, new ActionEntityResponseHandler());
             task.execute();
         }
     }

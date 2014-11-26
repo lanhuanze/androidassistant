@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.EditText;
 import com.iassistant.android.R;
+import com.iassistant.android.entities.ActionEntity;
 import com.iassistant.android.prefs.Prefs;
 import com.iassistant.android.service.MessageService;
+import com.iassistant.android.util.GsonHelper;
 import com.iassistant.android.util.PubnubConst;
 import com.pubnub.api.Callback;
 import com.pubnub.api.Pubnub;
@@ -66,9 +68,15 @@ public class DashboardActivity extends BaseActivity {
                     messageEditText.setText(message.toString());
                 }
             });
-            Intent intent = new Intent(message.toString());
-            intent.setClass(DashboardActivity.this, MessageService.class);
-            startService(intent);
+            ActionEntity ae = GsonHelper.fromJson(message.toString(), ActionEntity.class);
+            if(ae != null) {
+                Intent intent = new Intent(ae.getAction());
+                intent.putExtra("actionId", ae.getId());
+                intent.setClass(DashboardActivity.this, MessageService.class);
+                startService(intent);
+            }else {
+                log.error("error convert " + message.toString() +" to json.");
+            }
         }
 
         @Override
